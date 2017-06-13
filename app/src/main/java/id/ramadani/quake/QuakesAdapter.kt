@@ -1,11 +1,11 @@
-package id.ramadani.quake.data
+package id.ramadani.quake
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import id.ramadani.quake.R
+import id.ramadani.quake.data.Quake
 
 /**
  * Created by dani on 6/13/17.
@@ -32,9 +32,13 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         private val tvCity = itemView!!.findViewById(R.id.tv_city) as TextView
+        private val tvMag = itemView!!.findViewById(R.id.tv_mag) as TextView
+        private val tvDate = itemView!!.findViewById(R.id.tv_date) as TextView
 
         fun bind(quake: Quake) {
             tvCity.text = quake.city
+            tvMag.text = quake.magnitude.toString()
+            tvDate.text = quake.date
         }
     }
 }
