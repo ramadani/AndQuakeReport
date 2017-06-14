@@ -3,6 +3,7 @@ package id.ramadani.quake.data
 import android.util.Log
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 /**
  * Created by dani on 6/14/17.
@@ -33,11 +34,12 @@ class QuakeQueryUtils {
                 for (i in (0..(arrayOfQuake.length() - 1))) {
                     val quakeObj = arrayOfQuake.getJSONObject(i)
                     val quakeProperties = quakeObj.getJSONObject("properties")
-                    val magnitude = quakeProperties.getString("mag")
+                    val magnitude = quakeProperties.getDouble("mag")
                     val location = quakeProperties.getString("place")
-                    val time = quakeProperties.getString("time")
+                    val timeInMilliseconds = quakeProperties.getLong("time")
+                    val datetime = Date(timeInMilliseconds)
 
-                    quakes.add(Quake(location, magnitude.toDouble(), time))
+                    quakes.add(Quake(location, magnitude, datetime))
                 }
             } catch (e: JSONException) {
                 Log.e(LOG_CAT, "Problem parsing the earthquake JSON results", e)

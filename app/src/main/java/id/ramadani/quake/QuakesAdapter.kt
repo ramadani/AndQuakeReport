@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import id.ramadani.quake.data.Quake
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by dani on 6/13/17.
@@ -38,7 +40,7 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
         fun bind(quake: Quake) {
             tvCity.text = quake.city
             tvMag.text = quake.magnitude.toString()
-            tvDate.text = quake.date
+            tvDate.text = SimpleDateFormat("MMM DD, yyyy", Locale.getDefault()).format(quake.date)
         }
     }
 }
