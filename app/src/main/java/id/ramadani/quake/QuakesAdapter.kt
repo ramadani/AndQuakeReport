@@ -1,5 +1,7 @@
 package id.ramadani.quake
 
+import android.graphics.drawable.GradientDrawable
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -46,12 +48,15 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
 
         fun bind(quake: Quake) {
             val quakeLocation = getLocation(quake.location)
+            val magnitudeCircle = tvMag.background as GradientDrawable
 
             tvLocation.text = quakeLocation.primaryLocation
             tvLocationOffset.text = quakeLocation.locationOffset
             tvMag.text = formatMagnitude(quake.magnitude)
             tvDate.text = formatDateTime(quake.date, "LLL dd, yyyy")
             tvTime.text = formatDateTime(quake.date, "h:mm a")
+
+            magnitudeCircle.setColor(getMagnitudeColor(quake.magnitude))
         }
 
         private fun getLocation(location: String): QuakeLocation {
@@ -75,6 +80,26 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
 
         private fun formatDateTime(datetime: Date, format: String): String
                 = SimpleDateFormat(format, Locale.getDefault()).format(datetime)
+
+        private fun getMagnitudeColor(mag: Double): Int {
+            val magColorResId: Int
+            val magFloor: Int = Math.floor(mag).toInt()
+
+            when(magFloor) {
+                1 -> magColorResId = R.color.magnitude1
+                2 -> magColorResId = R.color.magnitude2
+                3 -> magColorResId = R.color.magnitude3
+                4 -> magColorResId = R.color.magnitude4
+                5 -> magColorResId = R.color.magnitude5
+                6 -> magColorResId = R.color.magnitude6
+                7 -> magColorResId = R.color.magnitude7
+                8 -> magColorResId = R.color.magnitude8
+                9 -> magColorResId = R.color.magnitude9
+                else -> magColorResId = R.color.magnitude10plus
+            }
+
+            return ContextCompat.getColor(itemView.context, magColorResId)
+        }
 
         data class QuakeLocation(val locationOffset: String, val primaryLocation: String)
     }
