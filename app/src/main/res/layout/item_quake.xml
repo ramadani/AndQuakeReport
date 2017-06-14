@@ -29,12 +29,22 @@
         <TextView
             android:id="@+id/tv_location_offset"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:textAllCaps="true"
+            android:textColor="@color/textColorEarthquakeDetails"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_primary_location"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/textColorEarthquakeLocation"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -48,11 +58,15 @@
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorEarthquakeDetails"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorEarthquakeDetails"
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>
