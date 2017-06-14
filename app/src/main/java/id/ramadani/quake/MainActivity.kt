@@ -1,9 +1,11 @@
 package id.ramadani.quake
 
+import android.graphics.Rect
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import id.ramadani.quake.data.Quake
 import id.ramadani.quake.data.QuakeQueryUtils
 import kotlin.collections.ArrayList
