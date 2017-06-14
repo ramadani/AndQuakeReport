@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:selectableItemBackground"
+    android:orientation="vertical"
+    android:background="@android:color/white"
     android:divider="?android:dividerHorizontal"
     android:showDividers="beginning"
     android:clickable="true">
@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:padding="@dimen/item_space"
         android:gravity="center"
-        android:background="@android:color/white">
+        android:background="?android:selectableItemBackground">
 
         <TextView
             android:id="@+id/tv_mag"
