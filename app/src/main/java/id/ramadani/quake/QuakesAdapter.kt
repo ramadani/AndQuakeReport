@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import id.ramadani.quake.data.Quake
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,17 +49,17 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
 
             tvLocation.text = quakeLocation.primaryLocation
             tvLocationOffset.text = quakeLocation.locationOffset
-            tvMag.text = quake.magnitude.toString()
-            tvDate.text = SimpleDateFormat("LLL dd, yyyy", Locale.getDefault()).format(quake.date)
-            tvTime.text = SimpleDateFormat("h:mm a", Locale.getDefault()).format(quake.date)
+            tvMag.text = formatMagnitude(quake.magnitude)
+            tvDate.text = formatDateTime(quake.date, "LLL dd, yyyy")
+            tvTime.text = formatDateTime(quake.date, "h:mm a")
         }
 
         private fun getLocation(location: String): QuakeLocation {
-            var locationOffset: String
-            var primaryLocation: String
+            val locationOffset: String
+            val primaryLocation: String
 
             if (location.contains(LOCATION_SEPARATOR)) {
-                var parts: List<String> = location.split(LOCATION_SEPARATOR)
+                val parts: List<String> = location.split(LOCATION_SEPARATOR)
                 locationOffset = parts[0] + LOCATION_SEPARATOR
                 primaryLocation = parts[1]
             } else {
@@ -68,6 +69,12 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
 
             return QuakeLocation(locationOffset, primaryLocation)
         }
+
+        private fun formatMagnitude(mag: Double, format: String = "0.0"): String
+                = DecimalFormat(format).format(mag)
+
+        private fun formatDateTime(datetime: Date, format: String): String
+                = SimpleDateFormat(format, Locale.getDefault()).format(datetime)
 
         data class QuakeLocation(val locationOffset: String, val primaryLocation: String)
     }
