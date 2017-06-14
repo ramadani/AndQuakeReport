@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Quake</string>
     <string name="main_title">Quake Report</string>
+    <string name="near_the">Near the</string>
 </resources>
