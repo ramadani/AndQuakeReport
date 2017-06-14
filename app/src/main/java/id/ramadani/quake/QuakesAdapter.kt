@@ -36,11 +36,13 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
         private val tvCity = itemView!!.findViewById(R.id.tv_city) as TextView
         private val tvMag = itemView!!.findViewById(R.id.tv_mag) as TextView
         private val tvDate = itemView!!.findViewById(R.id.tv_date) as TextView
+        private val tvTime = itemView!!.findViewById(R.id.tv_time) as TextView
 
         fun bind(quake: Quake) {
             tvCity.text = quake.city
             tvMag.text = quake.magnitude.toString()
-            tvDate.text = SimpleDateFormat("MMM DD, yyyy", Locale.getDefault()).format(quake.date)
+            tvDate.text = SimpleDateFormat("LLL dd, yyyy", Locale.getDefault()).format(quake.date)
+            tvTime.text = SimpleDateFormat("h:mm a", Locale.getDefault()).format(quake.date)
         }
     }
 }
