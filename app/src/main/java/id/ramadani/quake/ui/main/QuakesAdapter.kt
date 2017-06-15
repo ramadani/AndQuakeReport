@@ -1,4 +1,4 @@
-package id.ramadani.quake
+package id.ramadani.quake.ui.main
 
 import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -30,9 +31,7 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
         holder?.bind(quake)
     }
 
-    override fun getItemCount(): Int {
-        return quakes.size
-    }
+    override fun getItemCount(): Int = quakes.size
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
