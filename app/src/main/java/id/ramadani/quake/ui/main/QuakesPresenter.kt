@@ -16,6 +16,8 @@ class QuakesPresenter : QuakesPresenterContract<QuakesViewContract> {
     override fun getQuakeList() {
         val quakes = QuakeQueryUtils.extractEarthquakes()
 
+        mView!!.showLoading()
         mView!!.updateQuakeList(quakes)
+        mView!!.hideLoading()
     }
 }
