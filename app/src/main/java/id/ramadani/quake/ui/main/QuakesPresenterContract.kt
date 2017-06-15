@@ -5,7 +5,7 @@ import id.ramadani.quake.base.View
 /**
  * Created by dani on 6/15/17.
  */
-interface QuakesPresenterContract<T : View> {
+interface QuakesPresenterContract<in T : View> {
 
     fun attachView(view: T)
 
