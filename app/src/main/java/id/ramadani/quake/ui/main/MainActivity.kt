@@ -2,12 +2,15 @@ package id.ramadani.quake.ui.main
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.LoaderManager.LoaderCallbacks
+import android.support.v4.content.Loader
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.ProgressBar
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
 import id.ramadani.quake.data.QuakeDataManager
+import id.ramadani.quake.data.network.UsgsQuakesLoader
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), QuakesViewContract {
@@ -17,6 +20,20 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
     private var mPresenter: QuakesPresenterContract<QuakesViewContract>? = null
     private val mQuakes: ArrayList<Quake> = ArrayList()
     private val mQuakesAdapter: QuakesAdapter = QuakesAdapter(mQuakes)
+
+    private val mLoaderCallbacks = object : LoaderCallbacks<List<Quake>> {
+        override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<Quake>>? {
+            return UsgsQuakesLoader(this@MainActivity)
+        }
+
+        override fun onLoadFinished(loader: Loader<List<Quake>>?, data: List<Quake>?) {
+            addToQuakeList(data!!)
+        }
+
+        override fun onLoaderReset(loader: Loader<List<Quake>>?) {
+            clearingQuakeList()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +48,18 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
 
         mPresenter = QuakesPresenter(QuakeDataManager())
         mPresenter!!.attachView(this)
-        mPresenter!!.getQuakeList()
+//        mPresenter!!.getQuakeList()
+
+        supportLoaderManager.initLoader(0, null, mLoaderCallbacks)
     }
 
     override fun addToQuakeList(quakes: List<Quake>) {
         mQuakes.addAll(quakes)
+        mQuakesAdapter.notifyDataSetChanged()
+    }
+
+    override fun clearingQuakeList() {
+        mQuakes.clear()
         mQuakesAdapter.notifyDataSetChanged()
     }
 
