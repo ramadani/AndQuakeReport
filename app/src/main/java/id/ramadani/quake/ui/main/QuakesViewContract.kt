@@ -8,7 +8,7 @@ import id.ramadani.quake.data.Quake
  */
 interface QuakesViewContract : View {
 
-    fun updateQuakeList(quakes: List<Quake>)
+    fun addToQuakeList(quakes: List<Quake>)
 
     fun showLoading()
 

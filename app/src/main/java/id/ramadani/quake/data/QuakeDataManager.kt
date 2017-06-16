@@ -1,9 +1,13 @@
 package id.ramadani.quake.data
 
+import id.ramadani.quake.data.network.QuakeApi
+import id.ramadani.quake.data.network.Usgs
+
 /**
  * Created by dani on 6/15/17.
  */
 class QuakeDataManager : QuakeDataManagerContract {
+
     override fun getQuakes(): List<Quake> {
         TODO("not implemented")
     }
@@ -13,6 +17,6 @@ class QuakeDataManager : QuakeDataManagerContract {
     }
 
     override fun getQuakesFromApi(): List<Quake> {
-        TODO("not implemented")
+        return QuakeApi(Usgs()).getQuakes()
     }
 }

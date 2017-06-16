@@ -7,15 +7,16 @@ import android.support.v7.widget.RecyclerView
 import android.widget.ProgressBar
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
+import id.ramadani.quake.data.QuakeDataManager
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), QuakesViewContract {
 
     private lateinit var mRvQuakes: RecyclerView
     private lateinit var mPbQuakes: ProgressBar
+    private var mPresenter: QuakesPresenterContract<QuakesViewContract>? = null
     private val mQuakes: ArrayList<Quake> = ArrayList()
     private val mQuakesAdapter: QuakesAdapter = QuakesAdapter(mQuakes)
-    private val mPresenter: QuakesPresenterContract<QuakesViewContract> = QuakesPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +29,12 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
         mRvQuakes.adapter = mQuakesAdapter
         mRvQuakes.layoutManager = LinearLayoutManager(this)
 
-        mPresenter.attachView(this)
-        mPresenter.getQuakeList()
+        mPresenter = QuakesPresenter(QuakeDataManager())
+        mPresenter!!.attachView(this)
+        mPresenter!!.getQuakeList()
     }
 
-    override fun updateQuakeList(quakes: List<Quake>) {
+    override fun addToQuakeList(quakes: List<Quake>) {
         mQuakes.addAll(quakes)
         mQuakesAdapter.notifyDataSetChanged()
     }
