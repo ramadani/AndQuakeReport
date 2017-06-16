@@ -1,6 +1,7 @@
 package id.ramadani.quake.data.network
 
 import android.content.Context
+import android.net.Uri
 import android.support.v4.content.AsyncTaskLoader
 import android.util.Log
 import id.ramadani.quake.data.Quake
@@ -25,8 +26,6 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
 
     companion object {
         val LOG_TAG = UsgsQuakesLoader::class.java.simpleName
-        val USGS_REQUEST_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=" +
-                "geojson&starttime=2012-01-01&endtime=2012-12-01&minmagnitude=6";
     }
 
     override fun onStartLoading() {
@@ -38,7 +37,7 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
     }
 
     override fun loadInBackground(): List<Quake> {
-        val url = createUrl(USGS_REQUEST_URL)
+        val url = createUrl(buildUrl())
         var quakesJSON: String = ""
 
         try {
@@ -56,6 +55,22 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
         mQuakes = data
 
         super.deliverResult(data)
+    }
+
+    private fun buildUrl(): String {
+        val uriBuilder = Uri.Builder()
+        uriBuilder.scheme("https")
+                .authority("earthquake.usgs.gov")
+                .appendPath("fdsnws")
+                .appendPath("event")
+                .appendPath("1")
+                .appendPath("query")
+                .appendQueryParameter("format", "geojson")
+                .appendQueryParameter("starttime", "2014-10-01")
+                .appendQueryParameter("endtime", "2014-12-31")
+                .appendQueryParameter("minmagnitude", "5")
+
+        return uriBuilder.build().toString()
     }
 
     private fun createUrl(urlStr: String): URL? {

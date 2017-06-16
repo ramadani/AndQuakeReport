@@ -23,11 +23,13 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
 
     private val mLoaderCallbacks = object : LoaderCallbacks<List<Quake>> {
         override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<Quake>>? {
+            showLoading()
             return UsgsQuakesLoader(this@MainActivity)
         }
 
         override fun onLoadFinished(loader: Loader<List<Quake>>?, data: List<Quake>?) {
             addToQuakeList(data!!)
+            hideLoading()
         }
 
         override fun onLoaderReset(loader: Loader<List<Quake>>?) {
@@ -48,7 +50,6 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
 
         mPresenter = QuakesPresenter(QuakeDataManager())
         mPresenter!!.attachView(this)
-//        mPresenter!!.getQuakeList()
 
         supportLoaderManager.initLoader(0, null, mLoaderCallbacks)
     }
