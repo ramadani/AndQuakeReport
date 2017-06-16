@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView
 import android.widget.ProgressBar
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
-import id.ramadani.quake.data.QuakeDataManager
 import id.ramadani.quake.data.network.UsgsQuakesLoader
 import kotlin.collections.ArrayList
 
@@ -17,7 +16,6 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
 
     private lateinit var mRvQuakes: RecyclerView
     private lateinit var mPbQuakes: ProgressBar
-    private var mPresenter: QuakesPresenterContract<QuakesViewContract>? = null
     private val mQuakes: ArrayList<Quake> = ArrayList()
     private val mQuakesAdapter: QuakesAdapter = QuakesAdapter(mQuakes)
 
@@ -47,9 +45,6 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
 
         mRvQuakes.adapter = mQuakesAdapter
         mRvQuakes.layoutManager = LinearLayoutManager(this)
-
-        mPresenter = QuakesPresenter(QuakeDataManager())
-        mPresenter!!.attachView(this)
 
         supportLoaderManager.initLoader(0, null, mLoaderCallbacks)
     }
