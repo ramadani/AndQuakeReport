@@ -10,7 +10,6 @@ import android.widget.ProgressBar
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
 import id.ramadani.quake.data.network.UsgsQuakesLoader
-import id.ramadani.quake.utils.FormatterUtil
 import java.util.*
 import kotlin.collections.ArrayList
 
