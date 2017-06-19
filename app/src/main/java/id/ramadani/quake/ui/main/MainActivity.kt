@@ -11,9 +11,14 @@ import android.support.v7.widget.RecyclerView
 import android.widget.ProgressBar
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
+import id.ramadani.quake.data.QuakeDataManager
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), QuakesViewContract {
+
+    companion object {
+        private val QUAKES_LOADER_ID = 1
+    }
 
     private lateinit var mRvQuakes: RecyclerView
     private lateinit var mPbQuakes: ProgressBar
@@ -23,7 +28,7 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
     private val mQuakesLoaderCallbacks = object : LoaderCallbacks<List<Quake>> {
         override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<Quake>>? {
             showLoading()
-            return QuakesLoader(this@MainActivity)
+            return QuakesLoader(this@MainActivity, QuakeDataManager())
         }
 
         override fun onLoadFinished(loader: Loader<List<Quake>>?, data: List<Quake>?) {
@@ -51,7 +56,7 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
         divider.setDrawable(ContextCompat.getDrawable(baseContext, R.drawable.item_quake_divider))
         mRvQuakes.addItemDecoration(divider)
 
-        supportLoaderManager.initLoader(0, null, mQuakesLoaderCallbacks)
+        supportLoaderManager.initLoader(QUAKES_LOADER_ID, null, mQuakesLoaderCallbacks)
     }
 
     override fun addToQuakeList(quakes: List<Quake>) {

@@ -3,12 +3,12 @@ package id.ramadani.quake.ui.main
 import android.content.Context
 import android.support.v4.content.AsyncTaskLoader
 import id.ramadani.quake.data.Quake
-import id.ramadani.quake.data.network.Usgs
+import id.ramadani.quake.data.QuakeDataManagerContract
 
 /**
  * Created by dani on 6/16/17.
  */
-class QuakesLoader(context: Context?) :
+class QuakesLoader(context: Context?, val dataManager: QuakeDataManagerContract) :
         AsyncTaskLoader<List<Quake>>(context) {
 
     private var mQuakes: List<Quake>? = arrayListOf()
@@ -22,7 +22,7 @@ class QuakesLoader(context: Context?) :
     }
 
     override fun loadInBackground(): List<Quake> {
-        return Usgs().getQuakes()
+        return dataManager.getQuakesFromApi()
     }
 
     override fun deliverResult(data: List<Quake>?) {

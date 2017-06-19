@@ -7,10 +7,6 @@ import id.ramadani.quake.data.Quake
  */
 class Usgs : QuakeApiProvider {
 
-    companion object {
-        val LOG_TAG = Usgs::class.java.simpleName
-    }
-
     override fun getQuakes(): List<Quake> {
         return UsgsQuakesRequest().getList()
     }
