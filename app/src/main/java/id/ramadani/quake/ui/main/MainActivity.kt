@@ -3,7 +3,9 @@ package id.ramadani.quake.ui.main
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.LoaderManager.LoaderCallbacks
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.Loader
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.ProgressBar
@@ -52,6 +54,10 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
 
         mRvQuakes.adapter = mQuakesAdapter
         mRvQuakes.layoutManager = LinearLayoutManager(this)
+
+        val divider = DividerItemDecoration(mRvQuakes.context, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(ContextCompat.getDrawable(baseContext, R.drawable.item_quake_divider))
+        mRvQuakes.addItemDecoration(divider)
 
         supportLoaderManager.initLoader(0, null, mQuakesLoaderCallbacks)
     }
