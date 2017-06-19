@@ -1,8 +1,6 @@
 package id.ramadani.quake.data.network
 
-import android.content.Context
 import android.net.Uri
-import android.support.v4.content.AsyncTaskLoader
 import android.util.Log
 import id.ramadani.quake.data.Quake
 import id.ramadani.quake.utils.FormatterUtils
@@ -16,26 +14,15 @@ import java.net.URL
 import java.util.*
 
 /**
- * Created by dani on 6/16/17.
+ * Created by dani on 6/19/17.
  */
-class QuakesLoader(context: Context?, val minMag: Double, val startDate: Date,
-                   val endDate: Date) : AsyncTaskLoader<List<Quake>>(context) {
-
-    private var mQuakes: List<Quake>? = arrayListOf()
+class UsgsQuakesRequest {
 
     companion object {
-        val LOG_TAG = QuakesLoader::class.java.simpleName
+        val LOG_TAG = UsgsQuakesRequest::class.java.simpleName
     }
 
-    override fun onStartLoading() {
-        if (mQuakes!!.isNotEmpty()) {
-            deliverResult(mQuakes)
-        } else {
-            forceLoad()
-        }
-    }
-
-    override fun loadInBackground(): List<Quake> {
+    fun getList(): List<Quake> {
         val urlStr = buildUrl()
         val url = HttpUtils.createUrl(urlStr)
         var quakesJSON: String = ""
@@ -51,14 +38,13 @@ class QuakesLoader(context: Context?, val minMag: Double, val startDate: Date,
         return quakes
     }
 
-    override fun deliverResult(data: List<Quake>?) {
-        mQuakes = data
-
-        super.deliverResult(data)
-    }
-
     private fun buildUrl(): String {
         val uriBuilder = Uri.Builder()
+        val calendar = Calendar.getInstance()
+        val now = calendar.time
+        calendar.add(Calendar.MONTH, -3)
+        val ago = calendar.time
+        val minMag = 3.0
 
         uriBuilder.scheme("https")
                 .authority("earthquake.usgs.gov")
@@ -67,8 +53,8 @@ class QuakesLoader(context: Context?, val minMag: Double, val startDate: Date,
                 .appendPath("1")
                 .appendPath("query")
                 .appendQueryParameter("format", "geojson")
-                .appendQueryParameter("starttime", FormatterUtils.formatDateTime(startDate))
-                .appendQueryParameter("endtime", FormatterUtils.formatDateTime(endDate))
+                .appendQueryParameter("starttime", FormatterUtils.formatDateTime(ago))
+                .appendQueryParameter("endtime", FormatterUtils.formatDateTime(now))
                 .appendQueryParameter("minmagnitude", minMag.toString())
 
         return uriBuilder.build().toString()
