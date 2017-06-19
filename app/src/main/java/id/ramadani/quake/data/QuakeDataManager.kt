@@ -9,7 +9,7 @@ import id.ramadani.quake.data.network.Usgs
 class QuakeDataManager : QuakeDataManagerContract {
 
     override fun getQuakes(): List<Quake> {
-        TODO("not implemented")
+        return arrayListOf()
     }
 
     override fun saveQuakes(quakes: List<Quake>) {

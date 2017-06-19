@@ -44,11 +44,11 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
         private val tvTime = itemView!!.findViewById(R.id.tv_time) as TextView
 
         fun bind(quake: Quake) {
-            val quakeLocation = getLocation(quake.location)
+            val (locationOffset, primaryLocation) = getLocation(quake.location)
             val magnitudeCircle = tvMag.background as GradientDrawable
 
-            tvLocation.text = quakeLocation.primaryLocation
-            tvLocationOffset.text = quakeLocation.locationOffset
+            tvLocation.text = primaryLocation
+            tvLocationOffset.text = locationOffset
             tvMag.text = FormatterUtils.formatDecimal(quake.magnitude)
             tvDate.text = FormatterUtils.formatDateTime(quake.date, "LLL dd, yyyy")
             tvTime.text = FormatterUtils.formatDateTime(quake.date, "h:mm a")
