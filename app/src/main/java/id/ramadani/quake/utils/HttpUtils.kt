@@ -1,7 +1,6 @@
 package id.ramadani.quake.utils
 
 import android.util.Log
-import id.ramadani.quake.data.network.UsgsQuakesLoader
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -12,10 +11,10 @@ import java.nio.charset.Charset
 /**
  * Created by dani on 6/19/17.
  */
-class HttpUtil {
+class HttpUtils {
 
     companion object {
-        val LOG_TAG = HttpUtil::class.java.simpleName
+        val LOG_TAG = HttpUtils::class.java.simpleName
 
         fun createUrl(urlStr: String): URL? {
             val url: URL

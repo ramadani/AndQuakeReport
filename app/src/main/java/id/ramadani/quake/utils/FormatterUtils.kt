@@ -7,7 +7,7 @@ import java.util.*
 /**
  * Created by dani on 6/19/17.
  */
-class FormatterUtil {
+class FormatterUtils {
 
     companion object {
         fun formatDateTime(datetime: Date, format: String = "yyyy-MM-dd"): String

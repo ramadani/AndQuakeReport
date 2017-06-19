@@ -5,8 +5,8 @@ import android.net.Uri
 import android.support.v4.content.AsyncTaskLoader
 import android.util.Log
 import id.ramadani.quake.data.Quake
-import id.ramadani.quake.utils.FormatterUtil
-import id.ramadani.quake.utils.HttpUtil
+import id.ramadani.quake.utils.FormatterUtils
+import id.ramadani.quake.utils.HttpUtils
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -18,13 +18,13 @@ import java.util.*
 /**
  * Created by dani on 6/16/17.
  */
-class UsgsQuakesLoader(context: Context?, val minMag: Double, val startDate: Date,
-                       val endDate: Date) : AsyncTaskLoader<List<Quake>>(context) {
+class QuakesLoader(context: Context?, val minMag: Double, val startDate: Date,
+                   val endDate: Date) : AsyncTaskLoader<List<Quake>>(context) {
 
     private var mQuakes: List<Quake>? = arrayListOf()
 
     companion object {
-        val LOG_TAG = UsgsQuakesLoader::class.java.simpleName
+        val LOG_TAG = QuakesLoader::class.java.simpleName
     }
 
     override fun onStartLoading() {
@@ -37,7 +37,7 @@ class UsgsQuakesLoader(context: Context?, val minMag: Double, val startDate: Dat
 
     override fun loadInBackground(): List<Quake> {
         val urlStr = buildUrl()
-        val url = HttpUtil.createUrl(urlStr)
+        val url = HttpUtils.createUrl(urlStr)
         var quakesJSON: String = ""
 
         try {
@@ -67,8 +67,8 @@ class UsgsQuakesLoader(context: Context?, val minMag: Double, val startDate: Dat
                 .appendPath("1")
                 .appendPath("query")
                 .appendQueryParameter("format", "geojson")
-                .appendQueryParameter("starttime", FormatterUtil.formatDateTime(startDate))
-                .appendQueryParameter("endtime", FormatterUtil.formatDateTime(endDate))
+                .appendQueryParameter("starttime", FormatterUtils.formatDateTime(startDate))
+                .appendQueryParameter("endtime", FormatterUtils.formatDateTime(endDate))
                 .appendQueryParameter("minmagnitude", minMag.toString())
 
         return uriBuilder.build().toString()
@@ -87,7 +87,7 @@ class UsgsQuakesLoader(context: Context?, val minMag: Double, val startDate: Dat
             urlConnection.connect()
             inputStream = urlConnection.inputStream
 
-            jsonRes = HttpUtil.readFromStream(inputStream)
+            jsonRes = HttpUtils.readFromStream(inputStream)
         } catch (e: IOException) {
             Log.e(LOG_TAG, "IOException catched", e)
         } finally {

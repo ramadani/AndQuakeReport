@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
-import id.ramadani.quake.utils.FormatterUtil
+import id.ramadani.quake.utils.FormatterUtils
 
 /**
  * Created by dani on 6/13/17.
@@ -49,9 +49,9 @@ class QuakesAdapter(val quakes: List<Quake>) : RecyclerView.Adapter<QuakesAdapte
 
             tvLocation.text = quakeLocation.primaryLocation
             tvLocationOffset.text = quakeLocation.locationOffset
-            tvMag.text = FormatterUtil.formatDecimal(quake.magnitude)
-            tvDate.text = FormatterUtil.formatDateTime(quake.date, "LLL dd, yyyy")
-            tvTime.text = FormatterUtil.formatDateTime(quake.date, "h:mm a")
+            tvMag.text = FormatterUtils.formatDecimal(quake.magnitude)
+            tvDate.text = FormatterUtils.formatDateTime(quake.date, "LLL dd, yyyy")
+            tvTime.text = FormatterUtils.formatDateTime(quake.date, "h:mm a")
 
             magnitudeCircle.setColor(getMagnitudeColor(quake.magnitude))
         }

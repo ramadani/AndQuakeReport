@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView
 import android.widget.ProgressBar
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
-import id.ramadani.quake.data.network.UsgsQuakesLoader
+import id.ramadani.quake.data.network.QuakesLoader
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
             calendar.add(Calendar.MONTH, -3)
             val threeMonthsAgo = calendar.time
 
-            return UsgsQuakesLoader(this@MainActivity, 3.0, threeMonthsAgo, now)
+            return QuakesLoader(this@MainActivity, 3.0, threeMonthsAgo, now)
         }
 
         override fun onLoadFinished(loader: Loader<List<Quake>>?, data: List<Quake>?) {
