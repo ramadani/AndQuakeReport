@@ -8,6 +8,7 @@ import android.support.v4.content.Loader
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.widget.ProgressBar
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
@@ -17,6 +18,7 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity(), QuakesViewContract {
 
     companion object {
+        private val LOG_TAG = MainActivity::class.java.simpleName
         private val QUAKES_LOADER_ID = 1
     }
 
@@ -55,6 +57,12 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
         val divider = DividerItemDecoration(mRvQuakes.context, DividerItemDecoration.VERTICAL)
         divider.setDrawable(ContextCompat.getDrawable(baseContext, R.drawable.item_quake_divider))
         mRvQuakes.addItemDecoration(divider)
+
+        mQuakesAdapter.setOnItemClickListener(object : QuakesAdapter.OnItemClickListener {
+            override fun onItemClick(quake: Quake) {
+                Log.d(LOG_TAG, quake.location)
+            }
+        })
 
         supportLoaderManager.initLoader(QUAKES_LOADER_ID, null, mQuakesLoaderCallbacks)
     }
