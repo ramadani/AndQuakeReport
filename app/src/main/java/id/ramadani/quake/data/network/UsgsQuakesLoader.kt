@@ -5,16 +5,13 @@ import android.net.Uri
 import android.support.v4.content.AsyncTaskLoader
 import android.util.Log
 import id.ramadani.quake.data.Quake
+import id.ramadani.quake.utils.HttpUtil
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
-import java.net.MalformedURLException
 import java.net.URL
-import java.nio.charset.Charset
 import java.util.*
 
 /**
@@ -37,7 +34,7 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
     }
 
     override fun loadInBackground(): List<Quake> {
-        val url = createUrl(buildUrl())
+        val url = HttpUtil.createUrl(buildUrl())
         var quakesJSON: String = ""
 
         try {
@@ -73,19 +70,6 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
         return uriBuilder.build().toString()
     }
 
-    private fun createUrl(urlStr: String): URL? {
-        val url: URL
-
-        try {
-            url = URL(urlStr)
-        } catch (e: MalformedURLException) {
-            Log.e(LOG_TAG, "Error with creating URL", e)
-            return null
-        }
-
-        return url
-    }
-
     private fun makeHttpRequest(url: URL?): String {
         var jsonRes: String = ""
         var urlConnection: HttpURLConnection? = null
@@ -99,8 +83,7 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
             urlConnection.connect()
             inputStream = urlConnection.inputStream
 
-            jsonRes = readFromStream(inputStream)
-
+            jsonRes = HttpUtil.readFromStream(inputStream)
         } catch (e: IOException) {
             Log.e(LOG_TAG, "IOException catched", e)
         } finally {
@@ -109,23 +92,6 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
         }
 
         return jsonRes
-    }
-
-    private fun readFromStream(inputStream: InputStream?): String {
-        val output = StringBuilder()
-
-        if (inputStream != null) {
-            val inputStreamReader = InputStreamReader(inputStream, Charset.forName("UTF-8"))
-            val reader = BufferedReader(inputStreamReader)
-            var line = reader.readLine()
-
-            while (line != null) {
-                output.append(line)
-                line = reader.readLine()
-            }
-        }
-
-        return output.toString()
     }
 
     private fun extractFromJson(quakesJSON: String): ArrayList<Quake> {
