@@ -10,7 +10,7 @@ import java.util.*
 class FormatterUtil {
 
     companion object {
-        fun formatDateTime(datetime: Date, format: String): String
+        fun formatDateTime(datetime: Date, format: String = "yyyy-MM-dd"): String
                 = SimpleDateFormat(format, Locale.getDefault()).format(datetime)
 
         fun formatDecimal(decimal: Double, format: String = "0.0"): String

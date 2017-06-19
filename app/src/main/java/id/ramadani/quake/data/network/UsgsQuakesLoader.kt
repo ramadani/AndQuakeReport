@@ -5,6 +5,7 @@ import android.net.Uri
 import android.support.v4.content.AsyncTaskLoader
 import android.util.Log
 import id.ramadani.quake.data.Quake
+import id.ramadani.quake.utils.FormatterUtil
 import id.ramadani.quake.utils.HttpUtil
 import org.json.JSONException
 import org.json.JSONObject
@@ -17,7 +18,8 @@ import java.util.*
 /**
  * Created by dani on 6/16/17.
  */
-class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context) {
+class UsgsQuakesLoader(context: Context?, val minMag: Double, val startDate: Date,
+                       val endDate: Date) : AsyncTaskLoader<List<Quake>>(context) {
 
     private var mQuakes: List<Quake>? = arrayListOf()
 
@@ -34,7 +36,8 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
     }
 
     override fun loadInBackground(): List<Quake> {
-        val url = HttpUtil.createUrl(buildUrl())
+        val urlStr = buildUrl()
+        val url = HttpUtil.createUrl(urlStr)
         var quakesJSON: String = ""
 
         try {
@@ -56,6 +59,7 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
 
     private fun buildUrl(): String {
         val uriBuilder = Uri.Builder()
+
         uriBuilder.scheme("https")
                 .authority("earthquake.usgs.gov")
                 .appendPath("fdsnws")
@@ -63,9 +67,9 @@ class UsgsQuakesLoader(context: Context?) : AsyncTaskLoader<List<Quake>>(context
                 .appendPath("1")
                 .appendPath("query")
                 .appendQueryParameter("format", "geojson")
-                .appendQueryParameter("starttime", "2014-10-01")
-                .appendQueryParameter("endtime", "2014-12-31")
-                .appendQueryParameter("minmagnitude", "5")
+                .appendQueryParameter("starttime", FormatterUtil.formatDateTime(startDate))
+                .appendQueryParameter("endtime", FormatterUtil.formatDateTime(endDate))
+                .appendQueryParameter("minmagnitude", minMag.toString())
 
         return uriBuilder.build().toString()
     }

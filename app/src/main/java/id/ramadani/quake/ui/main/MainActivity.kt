@@ -10,6 +10,8 @@ import android.widget.ProgressBar
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
 import id.ramadani.quake.data.network.UsgsQuakesLoader
+import id.ramadani.quake.utils.FormatterUtil
+import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), QuakesViewContract {
@@ -19,10 +21,16 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
     private val mQuakes: ArrayList<Quake> = ArrayList()
     private val mQuakesAdapter: QuakesAdapter = QuakesAdapter(mQuakes)
 
-    private val mLoaderCallbacks = object : LoaderCallbacks<List<Quake>> {
+    private val mQuakesLoaderCallbacks = object : LoaderCallbacks<List<Quake>> {
         override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<Quake>>? {
             showLoading()
-            return UsgsQuakesLoader(this@MainActivity)
+
+            val calendar = Calendar.getInstance()
+            val now = calendar.time
+            calendar.add(Calendar.MONTH, -3)
+            val threeMonthsAgo = calendar.time
+
+            return UsgsQuakesLoader(this@MainActivity, 3.0, threeMonthsAgo, now)
         }
 
         override fun onLoadFinished(loader: Loader<List<Quake>>?, data: List<Quake>?) {
@@ -46,7 +54,7 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
         mRvQuakes.adapter = mQuakesAdapter
         mRvQuakes.layoutManager = LinearLayoutManager(this)
 
-        supportLoaderManager.initLoader(0, null, mLoaderCallbacks)
+        supportLoaderManager.initLoader(0, null, mQuakesLoaderCallbacks)
     }
 
     override fun addToQuakeList(quakes: List<Quake>) {
