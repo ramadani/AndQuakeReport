@@ -10,6 +10,8 @@ interface QuakesViewContract : View {
 
     fun addToQuakeList(quakes: List<Quake>)
 
+    fun openQuakeMap(quake: Quake)
+
     fun clearingQuakeList()
 
     fun showLoading()
