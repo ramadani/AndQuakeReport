@@ -14,7 +14,9 @@ interface QuakesViewContract : View {
 
     fun clearingQuakeList()
 
-    fun showLoading()
+    fun toggleLoading(state: Boolean)
 
-    fun hideLoading()
+    fun toggleList(state: Boolean)
+
+    fun toggleEmptyState(state: Boolean)
 }

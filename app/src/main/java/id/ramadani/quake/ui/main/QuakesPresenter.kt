@@ -16,11 +16,6 @@ class QuakesPresenter(dataManager: QuakeDataManagerContract) :
     }
 
     override fun getQuakeList() {
-        mView!!.showLoading()
 
-        val quakes = quakeDataManager.getQuakesFromApi()
-        mView!!.addToQuakeList(quakes)
-
-        mView!!.hideLoading()
     }
 }

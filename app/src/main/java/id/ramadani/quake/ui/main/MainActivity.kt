@@ -1,6 +1,5 @@
 package id.ramadani.quake.ui.main
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.LoaderManager.LoaderCallbacks
@@ -9,7 +8,9 @@ import android.support.v4.content.Loader
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
@@ -17,7 +18,6 @@ import id.ramadani.quake.data.QuakeDataManager
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), QuakesViewContract {
-
     companion object {
         private val LOG_TAG = MainActivity::class.java.simpleName
         private val QUAKES_LOADER_ID = 1
@@ -25,18 +25,25 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
 
     private lateinit var mRvQuakes: RecyclerView
     private lateinit var mPbQuakes: ProgressBar
+    private lateinit var mTvEmpty: TextView
     private val mQuakes: ArrayList<Quake> = ArrayList()
     private val mQuakesAdapter: QuakesAdapter = QuakesAdapter(mQuakes)
 
     private val mQuakesLoaderCallbacks = object : LoaderCallbacks<List<Quake>> {
         override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<Quake>>? {
-            showLoading()
+            toggleLoading(true)
             return QuakesLoader(this@MainActivity, QuakeDataManager())
         }
 
         override fun onLoadFinished(loader: Loader<List<Quake>>?, data: List<Quake>?) {
-            addToQuakeList(data!!)
-            hideLoading()
+            toggleLoading(false)
+
+            if (data!!.isNotEmpty()) {
+                toggleList(true)
+                addToQuakeList(data!!)
+            } else {
+                toggleEmptyState(true)
+            }
         }
 
         override fun onLoaderReset(loader: Loader<List<Quake>>?) {
@@ -52,6 +59,7 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
 
         mRvQuakes = findViewById(R.id.rv_quakes) as RecyclerView
         mPbQuakes = findViewById(R.id.pb_quakes) as ProgressBar
+        mTvEmpty = findViewById(R.id.tv_empty) as TextView
 
         mRvQuakes.adapter = mQuakesAdapter
         mRvQuakes.layoutManager = LinearLayoutManager(this)
@@ -85,11 +93,21 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
         Toast.makeText(this, quake.location, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showLoading() {
-        mPbQuakes.visibility = ProgressBar.VISIBLE
+    override fun toggleLoading(state: Boolean) {
+        mPbQuakes.visibility = if (state) ProgressBar.VISIBLE else {
+            ProgressBar.GONE
+        }
     }
 
-    override fun hideLoading() {
-        mPbQuakes.visibility = ProgressBar.GONE
+    override fun toggleList(state: Boolean) {
+        mRvQuakes.visibility = if (state) View.VISIBLE else {
+            View.GONE
+        }
+    }
+
+    override fun toggleEmptyState(state: Boolean) {
+        mTvEmpty.visibility = if (state) View.VISIBLE else {
+            View.GONE
+        }
     }
 }
