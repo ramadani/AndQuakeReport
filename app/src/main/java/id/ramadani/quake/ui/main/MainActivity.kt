@@ -15,6 +15,7 @@ import android.widget.Toast
 import id.ramadani.quake.R
 import id.ramadani.quake.data.Quake
 import id.ramadani.quake.data.QuakeDataManager
+import id.ramadani.quake.utils.InternetUtils
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), QuakesViewContract {
@@ -40,8 +41,9 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
 
             if (data!!.isNotEmpty()) {
                 toggleList(true)
-                addToQuakeList(data!!)
+                addToQuakeList(data)
             } else {
+                mTvEmpty.text = getString(R.string.quakes_empty)
                 toggleEmptyState(true)
             }
         }
@@ -68,7 +70,12 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
         divider.setDrawable(ContextCompat.getDrawable(baseContext, R.drawable.item_quake_divider))
         mRvQuakes.addItemDecoration(divider)
 
-        supportLoaderManager.initLoader(QUAKES_LOADER_ID, null, mQuakesLoaderCallbacks)
+        if (InternetUtils(applicationContext).isConnected()) {
+            supportLoaderManager.initLoader(QUAKES_LOADER_ID, null, mQuakesLoaderCallbacks)
+        } else {
+            toggleEmptyState(true)
+            mTvEmpty.text = getString(R.string.no_internet)
+        }
     }
 
     override fun onStart() {
