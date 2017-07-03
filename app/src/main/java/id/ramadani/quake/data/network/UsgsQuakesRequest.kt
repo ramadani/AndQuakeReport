@@ -40,11 +40,8 @@ class UsgsQuakesRequest {
 
     private fun buildUrl(): String {
         val uriBuilder = Uri.Builder()
-        val calendar = Calendar.getInstance()
-        val now = calendar.time
-        calendar.add(Calendar.MONTH, -3)
-        val ago = calendar.time
         val minMag = 3.0
+        val limit = 100
 
         uriBuilder.scheme("https")
                 .authority("earthquake.usgs.gov")
@@ -53,9 +50,10 @@ class UsgsQuakesRequest {
                 .appendPath("1")
                 .appendPath("query")
                 .appendQueryParameter("format", "geojson")
-                .appendQueryParameter("starttime", FormatterUtils.formatDateTime(ago))
-                .appendQueryParameter("endtime", FormatterUtils.formatDateTime(now))
-                .appendQueryParameter("minmagnitude", minMag.toString())
+                .appendQueryParameter("eventtype", "earthquake")
+                .appendQueryParameter("orderby", "time")
+                .appendQueryParameter("minmag", minMag.toString())
+                .appendQueryParameter("limit", limit.toString())
 
         return uriBuilder.build().toString()
     }
