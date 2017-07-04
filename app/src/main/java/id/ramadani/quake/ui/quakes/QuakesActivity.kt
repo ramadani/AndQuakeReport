@@ -37,7 +37,7 @@ class QuakesActivity : AppCompatActivity(), QuakesViewContract {
     private val mQuakesLoaderCallbacks = object : LoaderCallbacks<List<Quake>> {
         override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<Quake>>? {
             toggleLoading(true)
-            return QuakesLoader(this@QuakesActivity, QuakeDataManager())
+            return QuakesLoader(this@QuakesActivity, QuakeDataManager(this@QuakesActivity))
         }
 
         override fun onLoadFinished(loader: Loader<List<Quake>>?, data: List<Quake>?) {

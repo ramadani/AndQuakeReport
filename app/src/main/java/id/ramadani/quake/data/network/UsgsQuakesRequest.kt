@@ -15,7 +15,7 @@ import java.util.*
 /**
  * Created by dani on 6/19/17.
  */
-class UsgsQuakesRequest {
+class UsgsQuakesRequest(val minMag: Double) {
 
     companion object {
         val LOG_TAG = UsgsQuakesRequest::class.java.simpleName
@@ -39,7 +39,6 @@ class UsgsQuakesRequest {
 
     private fun buildUrl(): String {
         val uriBuilder = Uri.Builder()
-        val minMag = 3.0
         val limit = 100
 
         uriBuilder.scheme("https")

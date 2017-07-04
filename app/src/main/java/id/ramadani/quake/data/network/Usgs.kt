@@ -7,7 +7,7 @@ import id.ramadani.quake.data.model.Quake
  */
 class Usgs : QuakeApiProvider {
 
-    override fun getQuakes(): List<Quake> {
-        return UsgsQuakesRequest().getList()
+    override fun getQuakes(minMag: Double): List<Quake> {
+        return UsgsQuakesRequest(minMag).getList()
     }
 }
