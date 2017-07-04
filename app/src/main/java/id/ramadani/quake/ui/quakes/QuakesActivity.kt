@@ -1,4 +1,4 @@
-package id.ramadani.quake.ui.main
+package id.ramadani.quake.ui.quakes
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -16,15 +16,15 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import id.ramadani.quake.R
-import id.ramadani.quake.data.Quake
+import id.ramadani.quake.data.model.Quake
 import id.ramadani.quake.data.QuakeDataManager
 import id.ramadani.quake.ui.setting.SettingsActivity
 import id.ramadani.quake.utils.InternetUtils
 import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity(), QuakesViewContract {
+class QuakesActivity : AppCompatActivity(), QuakesViewContract {
     companion object {
-        private val LOG_TAG = MainActivity::class.java.simpleName
+        private val LOG_TAG = QuakesActivity::class.java.simpleName
         private val QUAKES_LOADER_ID = 1
     }
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), QuakesViewContract {
     private val mQuakesLoaderCallbacks = object : LoaderCallbacks<List<Quake>> {
         override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<Quake>>? {
             toggleLoading(true)
-            return QuakesLoader(this@MainActivity, QuakeDataManager())
+            return QuakesLoader(this@QuakesActivity, QuakeDataManager())
         }
 
         override fun onLoadFinished(loader: Loader<List<Quake>>?, data: List<Quake>?) {

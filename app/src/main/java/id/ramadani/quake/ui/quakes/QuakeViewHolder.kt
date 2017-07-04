@@ -1,4 +1,4 @@
-package id.ramadani.quake.ui.main
+package id.ramadani.quake.ui.quakes
 
 import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import id.ramadani.quake.R
-import id.ramadani.quake.data.Quake
+import id.ramadani.quake.data.model.Quake
 import id.ramadani.quake.utils.FormatterUtils
 
 /**

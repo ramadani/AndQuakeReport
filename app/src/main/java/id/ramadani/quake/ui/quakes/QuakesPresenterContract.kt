@@ -1,4 +1,4 @@
-package id.ramadani.quake.ui.main
+package id.ramadani.quake.ui.quakes
 
 import id.ramadani.quake.base.View
 

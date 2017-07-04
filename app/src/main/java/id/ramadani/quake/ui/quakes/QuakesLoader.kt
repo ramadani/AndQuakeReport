@@ -1,8 +1,8 @@
-package id.ramadani.quake.ui.main
+package id.ramadani.quake.ui.quakes
 
 import android.content.Context
 import android.support.v4.content.AsyncTaskLoader
-import id.ramadani.quake.data.Quake
+import id.ramadani.quake.data.model.Quake
 import id.ramadani.quake.data.QuakeDataManagerContract
 
 /**

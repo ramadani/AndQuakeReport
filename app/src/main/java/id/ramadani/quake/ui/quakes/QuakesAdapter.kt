@@ -1,10 +1,10 @@
-package id.ramadani.quake.ui.main
+package id.ramadani.quake.ui.quakes
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import id.ramadani.quake.R
-import id.ramadani.quake.data.Quake
+import id.ramadani.quake.data.model.Quake
 
 /**
  * Created by dani on 6/13/17.

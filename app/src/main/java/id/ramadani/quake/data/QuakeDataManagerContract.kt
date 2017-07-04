@@ -1,5 +1,7 @@
 package id.ramadani.quake.data
 
+import id.ramadani.quake.data.model.Quake
+
 /**
  * Created by dani on 6/15/17.
  */

@@ -2,8 +2,7 @@ package id.ramadani.quake.data.network
 
 import android.net.Uri
 import android.util.Log
-import id.ramadani.quake.data.Quake
-import id.ramadani.quake.utils.FormatterUtils
+import id.ramadani.quake.data.model.Quake
 import id.ramadani.quake.utils.HttpUtils
 import org.json.JSONException
 import org.json.JSONObject
